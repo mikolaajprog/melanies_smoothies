@@ -1,7 +1,6 @@
 # Import python packages
 import streamlit as st
 from snowflake.snowpark.context import get_active_session
-from streamlit.runtime.scriptrunner import get_script_run_ctx as get_active_session
 from snowflake.snowpark.functions import col
 
 # Tytuł aplikacji

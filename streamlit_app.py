@@ -1,7 +1,22 @@
-# Import python packages
+# Import Python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
+
+# Parametry połączenia do Snowflake (upewnij się, że te wartości są odpowiednie dla Twojego konta)
+connection_parameters = {
+account = "VRXIIAJ-AGB19619"
+user = "mikolajlopatka"
+password = "FraHtMiki2024#"
+role = "SYSADMIN"
+warehouse = "COMPUTE_WH"
+database = "SMOOTHIES"
+schema = "PUBLIC"
+client_session_keep_alive = true
+}
+
+# Inicjalizacja sesji Snowflake
+session = Session.builder.configs(connection_parameters).create()
 
 # Tytuł aplikacji
 st.title("🥤Customize Your Smoothie!🥤")
@@ -13,24 +28,19 @@ Choose the fruits you want in your custom Smoothie!
 name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be: ', name_on_order)
 
-# Połączenie z Snowflake
-session = get_active_session()
-
-# Pobieranie dostępnych owoców
+# Pobieranie dostępnych owoców z Snowflake
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 # Wybór składników
 ingredients_list = st.multiselect(
-    'Choose up to 5 ingredients: '
-    , my_dataframe
-    , max_selections=5
+    'Choose up to 5 ingredients: ',
+    my_dataframe.to_pandas()['FRUIT_NAME'].tolist(),  # Przekształcamy dane Snowflake do listy
+    max_selections=5
 )
 
 # Tworzenie zapytania do wstawienia
 if ingredients_list:
-    ingredients_string = ''
-    for fruit_chosen in ingredients_list:
-        ingredients_string += fruit_chosen + ' '
+    ingredients_string = ' '.join(ingredients_list)
 
     my_insert_stmt = f"""
     INSERT INTO smoothies.public.orders (ingredients, name_on_order)

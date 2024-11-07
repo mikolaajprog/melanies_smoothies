@@ -3,17 +3,6 @@ import streamlit as st
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
 
-# Parametry połączenia do Snowflake (upewnij się, że te wartości są odpowiednie dla Twojego konta)
-connection_parameters = {
-account = "VRXIIAJ-AGB19619"
-user = "mikolajlopatka"
-password = "FraHtMiki2024#"
-role = "SYSADMIN"
-warehouse = "COMPUTE_WH"
-database = "SMOOTHIES"
-schema = "PUBLIC"
-client_session_keep_alive = true
-}
 
 # Inicjalizacja sesji Snowflake
 session = Session.builder.configs(connection_parameters).create()

@@ -4,7 +4,6 @@ from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
 
 connection_parameters = {
-    account = "VRXIIAJ-AGB19619"
     user = "mikolajlopatka"
     password = "FraHtMiki2024#"
     role = "SYSADMIN"

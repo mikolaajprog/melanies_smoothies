@@ -3,16 +3,9 @@ import streamlit as st
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
 
-connection_parameters = {
-    user = "mikolajlopatka"
-    password = "FraHtMiki2024#"
-    role = "SYSADMIN"
-    warehouse = "COMPUTE_WH"
-    database = "SMOOTHIES"
-    schema = "PUBLIC"
-}
+
 # Inicjalizacja sesji Snowflake
-session = Session.builder.configs(connection_parameters).create()
+session = Session.builder.create()
 
 # Tytuł aplikacji
 st.title("🥤Customize Your Smoothie!🥤")
